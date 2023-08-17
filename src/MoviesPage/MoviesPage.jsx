@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import React, { useEffect, useState } from "react";
-
+import PDF from "./PDF";
 const startYear = 2000;
 const endingYear = new Date().getFullYear();
 const yearArr = [];
@@ -48,16 +49,27 @@ function MoviesPage() {
         <h1 className="text-primary text-center text-capitalize">
           Welcome to our website
         </h1>
-        <p className="text-capitalize w-50 mx-auto text-secondary text-center">
+        <p className="text-capitalize w-50 mx-auto text-warning-emphasis text-center">
           You Can get latest movies and best movies to watch in your free time
           also you can download the pdf of best movies list
         </p>
         <h3 className="text-center text-capitalize bg-secondary p-2 rounded-5 text-white">
           best movies of the year
         </h3>
-        <h3 className="badge text-dark bg-warning px-3 py-2 mt-4">
-          Select Year
-        </h3>
+        <div className="d-flex align-items-center justify-content-between">
+          <h5 className="rounded text-dark bg-warning px-3 py-2 mt-4">
+            Select Year
+          </h5>
+          {!isLoading && (
+            <PDFDownloadLink
+              document={<PDF movies={movies} />}
+              fileName={`Best Movies Of The Year ${selectedYear}`}
+            >
+              <button className="btn btn-success">Download PDF</button>
+            </PDFDownloadLink>
+          )}
+        </div>
+
         <select
           name="movies"
           className="form-select"
@@ -94,13 +106,15 @@ function MoviesPage() {
             </div>
           </section>
         ) : (
-          <ul className="list-group">
-            {movies.map((item, idx) => (
-              <li className="list-group-item" key={idx}>
-                {item.title}
-              </li>
-            ))}
-          </ul>
+          <>
+            <ul className="list-group">
+              {movies.map((item, idx) => (
+                <li className="list-group-item" key={idx}>
+                  {item.title}
+                </li>
+              ))}
+            </ul>
+          </>
         )}
       </div>
     </section>
