@@ -2,6 +2,7 @@
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import React, { useEffect, useState } from "react";
 import PDF from "./PDF";
+import no_img from "./no_img.png";
 const startYear = 2000;
 const endingYear = new Date().getFullYear();
 const yearArr = [];
@@ -106,15 +107,42 @@ function MoviesPage() {
             </div>
           </section>
         ) : (
-          <>
-            <ul className="list-group">
-              {movies.map((item, idx) => (
-                <li className="list-group-item" key={idx}>
-                  {item.title}
-                </li>
-              ))}
-            </ul>
-          </>
+          <ul className="list-group">
+            {movies.map((item, idx) => (
+              <li
+                className="list-group-item my-2"
+                style={{ border: "1px solid", borderRadius: "0.5rem" }}
+                key={idx}
+              >
+                <div className="d-flex align-items-center gap-3">
+                  <img
+                    style={{
+                      width: "200px",
+                      aspectRatio: "1/1",
+                      borderRadius: "0.5rem",
+                    }}
+                    src={
+                      item.poster_path
+                        ? `https://image.tmdb.org/t/p/original/${item.poster_path}`
+                        : no_img
+                    }
+                    alt={item.title}
+                  />
+                  <div>
+                    <h4 className="mb-4">
+                      Movie Name :
+                      <small className="text-warning"> {item.title}</small>
+                    </h4>
+
+                    <h6 className="m-0">About Movie</h6>
+                    <p className="m-0">
+                      {item.overview ? item.overview : "N/A"}
+                    </p>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
         )}
       </div>
     </section>
